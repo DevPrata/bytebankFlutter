@@ -22,18 +22,18 @@ São os componentes do flutter, ele representa cada elemento visual da tela no F
 ## Níveis de widget
 	App — RUNAPP()
 		└── Column
-			    ├── Text
-			    ├── Text
-			    ├── Text
-			    └── Column
-				        └── Text
+			  ├── Text
+			  ├── Text
+			  ├── Text
+			  └── Column
+				    └── Text
 
 
 A partir da column pode se considerar que iria ser um arvore de widget onde um widget ira conter multiplos widgets dentro dela
 
 
 ## Exemplo de uma arvore de widgets
-
+```
 import 'package:flutter/material.dart';
 
 void main() => runApp(Column(
@@ -49,7 +49,7 @@ void main() => runApp(Column(
       ],
     )
 );
-
+```
 
 Como vimos, diferente de outras plataformas, o Flutter cria o layout via código fonte, ou seja, sem a necessidade de um arquivo separado para o layout, como por exemplo, HTML ou XML também conhecido como modo imperativo.
 Esse tipo de abordagem é conhecida como estilo de reação (react-style) ou declativa (declarative).
