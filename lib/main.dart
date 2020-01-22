@@ -68,7 +68,6 @@ class FormularioTransferencia extends StatelessWidget {
     if (numeroConta != null && valor != null) {
       final transferenciaCriada = Transferencia(valor, numeroConta);
 
-      debugPrint('Criando transferencia');
       Navigator.pop(context,transferenciaCriada);
     }
   }
@@ -112,8 +111,19 @@ class ListaTransferencia extends StatelessWidget {
         title: Text('Transferências'),
       ),
 
-      body: Column(
+      body: ListView(
         children: <Widget>[
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
+          ItemTransferencia(Transferencia(100.0, 1000)),
           ItemTransferencia(Transferencia(100.0, 1000)),
         ],
       ),
@@ -136,12 +146,10 @@ class ListaTransferencia extends StatelessWidget {
     //Função assicrona onde tela futura voltar para tela inicial
     // e verificar se houve um valor retornado e assim receber esse valor para tela inicial
     future.then((transferenciaRecebida){
-      debugPrint('Chegou no then do future');
 
       final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
       Scaffold.of(context).showSnackBar(snackBar);
 
-      debugPrint('$transferenciaRecebida');
     });
   }
 
