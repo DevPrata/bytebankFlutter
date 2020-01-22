@@ -84,6 +84,9 @@ class FormularioTransferencia extends StatelessWidget {
               if(numeroConta != null && valor != null) {
                 final transferenciaCriada = Transferencia(valor,numeroConta);
                 debugPrint('$transferenciaCriada');
+
+                final snackBar = SnackBar(content: Text('$transferenciaCriada'),duration: Duration(seconds: 5) ,);
+                Scaffold.of(context).showSnackBar(snackBar);
               }
 
             },
@@ -95,6 +98,7 @@ class FormularioTransferencia extends StatelessWidget {
         ],
       ),
     );
+
 
   }
 }
@@ -147,6 +151,6 @@ class Transferencia {
 
   @override
   String toString() {
-    return 'Transferencia{ valor:$valor, numeroConta:$numeroConta }';
+    return 'Transferencia{ valor: $valor, numeroConta: $numeroConta }';
   }
 }
