@@ -11,14 +11,14 @@ class ByteBankApp extends StatelessWidget {
         // Scaffold: Permitirá implementarmos toda a estrutura básica (ou esqueleto) do Material Design.
 
         //Corpo do aplicativo
-        body: FormularioTransferencia(),
+        body: ListaTransferencia(),
       ),
     );
   }
 }
 
 class FormularioTransferencia extends StatelessWidget {
-  
+
   final TextEditingController _controladorCampoNumeroConta = TextEditingController();
 
   final TextEditingController _controladorCampoValor = TextEditingController();
@@ -29,10 +29,6 @@ class FormularioTransferencia extends StatelessWidget {
 
       appBar: AppBar(
         title: Text('Criando transferência'),
-        leading: Icon(
-          Icons.navigate_before,
-          size: 40,
-        ),
         backgroundColor: Colors.green,
 
       ),
@@ -72,8 +68,8 @@ class FormularioTransferencia extends StatelessWidget {
     if (numeroConta != null && valor != null) {
       final transferenciaCriada = Transferencia(valor, numeroConta);
 
-      final snackBar = SnackBar(content: Text('$transferenciaCriada'), duration: Duration(seconds: 5),);
-      Scaffold.of(context).showSnackBar(snackBar);
+      debugPrint('Criando transferencia');
+      Navigator.pop(context,transferenciaCriada);
     }
   }
 
@@ -107,6 +103,7 @@ class Editor extends StatelessWidget {
 }
 
 class ListaTransferencia extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,9 +120,31 @@ class ListaTransferencia extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        onPressed: ()=> _goToFormularioTransferencia(context),
       ),
     );
   }
+
+  void _goToFormularioTransferencia(BuildContext context) {
+    //Navegação de tela Inicial para formulario, nele ira precisar do contexto da aplicação, e estou utilizando MaterialPageRoute para facilitar uso
+    //MaterialPageRoute ira precisar de builder nele o contexto e ira retornar a tela que você navegar
+    final Future<Transferencia> future = Navigator.push(context, MaterialPageRoute(
+      builder: (context){
+        return FormularioTransferencia();
+      }));
+
+    //Função assicrona onde tela futura voltar para tela inicial
+    // e verificar se houve um valor retornado e assim receber esse valor para tela inicial
+    future.then((transferenciaRecebida){
+      debugPrint('Chegou no then do future');
+
+      final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
+      Scaffold.of(context).showSnackBar(snackBar);
+
+      debugPrint('$transferenciaRecebida');
+    });
+  }
+
 }
 
 class ItemTransferencia extends StatelessWidget {
