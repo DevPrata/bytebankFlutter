@@ -112,3 +112,10 @@ controller: onde iria controlar toda parte que usuario digitar
     
       ),
       
+## Navegação
+
+Para a navegação, utilize a função push() do Navigator enviando como argumento um BuildContext e o Route<T>. Para o Route<T> considere o MaterialPageRoute que é uma implementação do Material Components com o objetivo de facilitar o uso e aplicar algumas propriedades comum no Material Design, como é o caso da transição com animação.
+
+Para o MaterialPageRoute envie o argumento builder que espera um callback que recebe um BuildContext e devolve um Widget. Então, dentro do lambda, retorne o Widget do formulário.
+
+Caso precisa um valor no retorno do push, atribua o retorno do push() para a variável do tipo Future<TipoDoValorQueReceber>. Com acesso ao future, utilize a função then() que espera um callback que recebe a valor criado via parâmetro.
