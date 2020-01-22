@@ -60,6 +60,50 @@ Acessaremos a página Material Components, que é bem similar à Basic Widgets
 
 ## Diferença entre StatefulWidget e StatelessWidget
 StatefulWidget você podera modificar esses widgets de forma dinamica 
+
 StatelessWidget não consegue modificar esse conteudo
 
 Durante a extração de código, vimos as referências StatelessWidget e StatefulWidget, implementações da classe abstrata Widget, que permitem encapsular outros Widget dentro de classes que dão mais significado dentro do nosso App.
+
+##Boas práticas
+1. Para a impressão considere o debugPrint() como boa prática.
+2. Considere o uso do tryParse() para realizar a conversão.
+
+
+## Textfield 
+Para criação de um textfield para um formulario você ira ter widget chamado Textfield(), nele ira ter props:
+ 
+style(que tem widget TextStyle para estilizar o texto do input);
+ 
+decoration:(Que tem widget chamado InputDecoration(onde ira ter placeholder,hintText do input));
+
+keyboardType: Onde você ira dizer que tipo de teclado mostrar quando estiver naquele campo;
+
+controller: onde iria controlar toda parte que usuario digitar
+
+####Exemplo de textfield:
+
+      final TextEditingController _controladorCampoNumeroConta = TextEditingController(); // Declarar a variavel na classe do seu Widget 
+       
+      
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40.0, 18.0, 40.0, 12.0), 
+        child: TextField(
+          controller: _controladorCampoNumeroConta,
+    
+          style: TextStyle(
+            fontSize: 24.0
+          ),
+    
+          decoration: InputDecoration(
+            labelText: 'Número da conta',
+            hintText: '0000'
+          ),
+    
+          keyboardType: TextInputType.number,
+        ),
+    
+      ),
+      
+ 
+## Botão
