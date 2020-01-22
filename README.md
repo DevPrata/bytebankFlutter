@@ -15,7 +15,14 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-O que são Widgets?
+#Atalhos no Intelijj
+  Selecionando algumas linhas de codigo e fazendo metodo: Cmd + Alt + M;
+  
+  Criando Widget pai para aquele widget selecionado : Alt + Enter;
+  
+  
+
+#O que são Widgets?
 São os componentes do flutter, ele representa cada elemento visual da tela no Flutter, ao construir uma tela podemos usar 1 ou N Widgets.
 
 
@@ -105,5 +112,3 @@ controller: onde iria controlar toda parte que usuario digitar
     
       ),
       
- 
-## Botão
