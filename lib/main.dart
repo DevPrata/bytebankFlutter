@@ -6,16 +6,28 @@ class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      //Criando as rotas das telas
+      initialRoute: '/',
+      routes: {
+        '/': (context) => ListaTransferencia(),
+        '/CriarTransferencia': (context) => FormularioTransferencia()
+      },
+
+      /*
       //Home: Permite indicar qualquer widget como primeira tela. no root do MaterialApp
       home: Scaffold(
         // Scaffold: Permitirá implementarmos toda a estrutura básica (ou esqueleto) do Material Design.
 
         //Corpo do aplicativo
         body: ListaTransferencia(),
-      ),
+      ),*/
     );
   }
 }
+
+
+
 
 class FormularioTransferencia extends StatelessWidget {
 
@@ -103,6 +115,8 @@ class Editor extends StatelessWidget {
 
 class ListaTransferencia extends StatelessWidget {
 
+  final List<Transferencia> _listaTransferencias = List();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,26 +125,21 @@ class ListaTransferencia extends StatelessWidget {
         title: Text('Transferências'),
       ),
 
-      body: ListView(
-        children: <Widget>[
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-          ItemTransferencia(Transferencia(100.0, 1000)),
-        ],
+      //ListView é utilizado para quem precise de uma lista com quantidade enorme de items, algo que column não consegue proporcionar
+      //E caso precise de um ListView em dinamico que possa mudar a qualquer momento use a função buillder no exemplo abaixo:
+      body: ListView.builder(
+        itemCount: _listaTransferencias.length,
+        itemBuilder: (context,indice){
+          final transferencia = _listaTransferencias[indice];
+          return ItemTransferencia(transferencia);
+        },
       ),
 
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: ()=> _goToFormularioTransferencia(context),
+      floatingActionButton: Builder(
+        builder: (ctx) => FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: ()=> _goToFormularioTransferencia(ctx),
+        ),
       ),
     );
   }
@@ -138,17 +147,21 @@ class ListaTransferencia extends StatelessWidget {
   void _goToFormularioTransferencia(BuildContext context) {
     //Navegação de tela Inicial para formulario, nele ira precisar do contexto da aplicação, e estou utilizando MaterialPageRoute para facilitar uso
     //MaterialPageRoute ira precisar de builder nele o contexto e ira retornar a tela que você navegar
-    final Future<Transferencia> future = Navigator.push(context, MaterialPageRoute(
-      builder: (context){
-        return FormularioTransferencia();
-      }));
+    final Future future = Navigator.pushNamed(context, '/CriarTransferencia');
 
     //Função assicrona onde tela futura voltar para tela inicial
     // e verificar se houve um valor retornado e assim receber esse valor para tela inicial
     future.then((transferenciaRecebida){
 
-      final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
-      Scaffold.of(context).showSnackBar(snackBar);
+      debugPrint('$transferenciaRecebida');
+
+      if(transferenciaRecebida != null){
+        _listaTransferencias.add(transferenciaRecebida);
+
+
+        final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
 
     });
   }
