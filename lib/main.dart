@@ -11,7 +11,7 @@ class ByteBankApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ListaTransferencia(),
-        '/CriarTransferencia': (context) => FormularioTransferencia()
+        '/FormularioTransferencia': (context) => FormularioTransferencia()
       },
 
       /*
@@ -22,11 +22,21 @@ class ByteBankApp extends StatelessWidget {
         //Corpo do aplicativo
         body: ListaTransferencia(),
       ),*/
+
+
     );
   }
 }
 
+//TODO: Implementar roteamento das telas utilizando um ENUM
+class Routes {
+  final _value;
+  const Routes._internal(this._value);
+  toString() => 'Enum.$_value';
 
+  static const LISTA_TRANSFERENCIA  = const Routes._internal('/');
+  static const FORMULARIO_TRANSFERENCIA = const Routes._internal('/FormularioTransferencia');
+}
 
 
 class FormularioTransferencia extends StatelessWidget {
@@ -113,9 +123,20 @@ class Editor extends StatelessWidget {
   }
 }
 
-class ListaTransferencia extends StatelessWidget {
+//StatefulWidget não é recomendado para adição de conteudo dentro do build da tela
+class ListaTransferencia extends StatefulWidget {
 
+  //Caso seja algo que não vai mudar
   final List<Transferencia> _listaTransferencias = List();
+
+  @override
+  State<StatefulWidget> createState() {
+    return ListaTransferenciasState();
+  }
+
+}
+
+class ListaTransferenciasState extends State<ListaTransferencia> {
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +149,9 @@ class ListaTransferencia extends StatelessWidget {
       //ListView é utilizado para quem precise de uma lista com quantidade enorme de items, algo que column não consegue proporcionar
       //E caso precise de um ListView em dinamico que possa mudar a qualquer momento use a função buillder no exemplo abaixo:
       body: ListView.builder(
-        itemCount: _listaTransferencias.length,
+        itemCount: widget._listaTransferencias.length,
         itemBuilder: (context,indice){
-          final transferencia = _listaTransferencias[indice];
+          final transferencia = widget._listaTransferencias[indice];
           return ItemTransferencia(transferencia);
         },
       ),
@@ -147,7 +168,7 @@ class ListaTransferencia extends StatelessWidget {
   void _goToFormularioTransferencia(BuildContext context) {
     //Navegação de tela Inicial para formulario, nele ira precisar do contexto da aplicação, e estou utilizando MaterialPageRoute para facilitar uso
     //MaterialPageRoute ira precisar de builder nele o contexto e ira retornar a tela que você navegar
-    final Future future = Navigator.pushNamed(context, '/CriarTransferencia');
+    final Future future = Navigator.pushNamed(context,'/FormularioTransferencia');
 
     //Função assicrona onde tela futura voltar para tela inicial
     // e verificar se houve um valor retornado e assim receber esse valor para tela inicial
@@ -156,8 +177,7 @@ class ListaTransferencia extends StatelessWidget {
       debugPrint('$transferenciaRecebida');
 
       if(transferenciaRecebida != null){
-        _listaTransferencias.add(transferenciaRecebida);
-
+        widget._listaTransferencias.add(transferenciaRecebida);
 
         final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
         Scaffold.of(context).showSnackBar(snackBar);
@@ -165,7 +185,6 @@ class ListaTransferencia extends StatelessWidget {
 
     });
   }
-
 }
 
 class ItemTransferencia extends StatelessWidget {
