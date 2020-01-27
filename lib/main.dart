@@ -6,6 +6,15 @@ class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.green[900],
+        accentColor: Colors.blueAccent[700],
+        buttonTheme: ButtonThemeData(
+          buttonColor:  Colors.blueAccent[700],
+          textTheme: ButtonTextTheme.primary
+        )
+      ),
+
 
       //Criando as rotas das telas
       initialRoute: '/',
@@ -72,7 +81,6 @@ class StateFormularioTransferencia extends State<FormularioTransferencia>{
 
       appBar: AppBar(
         title: Text('Criando transferência'),
-        backgroundColor: Colors.green,
 
       ),
       body: SingleChildScrollView(
@@ -95,7 +103,7 @@ class StateFormularioTransferencia extends State<FormularioTransferencia>{
             RaisedButton(
               onPressed: () => widget._criaTransferencia(context),
               child: Text('Confirmar'),
-              padding: const EdgeInsets.fromLTRB(90.0, 18.0, 90, 12.0),
+              padding: const EdgeInsets.fromLTRB(90.0, 18.0, 90, 18.0),
             )
 
           ],
@@ -185,7 +193,7 @@ class ListaTransferenciasState extends State<ListaTransferencia> {
     future.then((transferenciaRecebida){
       //Caso use future para fazer alguma requisicao para atualizar, use setState para atualizar algo dinamico pois
       // sem isso somente ira atualizar quando build for executado novamente
-      Future.delayed(Duration(seconds: 2), (){
+      Future.delayed(Duration(seconds: 1), (){
         if(transferenciaRecebida != null){
           setState(() {
             widget._listaTransferencias.add(transferenciaRecebida);
