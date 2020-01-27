@@ -39,47 +39,15 @@ class Routes {
 }
 
 
-class FormularioTransferencia extends StatelessWidget {
+class FormularioTransferencia extends StatefulWidget {
 
   final TextEditingController _controladorCampoNumeroConta = TextEditingController();
 
   final TextEditingController _controladorCampoValor = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-      appBar: AppBar(
-        title: Text('Criando transferência'),
-        backgroundColor: Colors.green,
-
-      ),
-      body: Column(
-        children: <Widget>[
-
-          Editor(
-              controlador: _controladorCampoNumeroConta,
-              placeholder: 'Número da conta',
-              dica: '0000'
-          ),
-
-          Editor(
-              controlador: _controladorCampoValor,
-              placeholder: 'Valor',
-              dica: '0.00',
-              icone: Icons.monetization_on
-          ),
-
-          RaisedButton(
-            onPressed: () => _criaTransferencia(context),
-            child: Text('Confirmar'),
-            padding: const EdgeInsets.fromLTRB(90.0, 18.0, 90, 12.0),
-          )
-
-        ],
-
-      ),
-    );
+  State<StatefulWidget> createState() {
+    return StateFormularioTransferencia();
   }
 
   //Context é necessario para ultilizar o SnackBar
@@ -94,6 +62,48 @@ class FormularioTransferencia extends StatelessWidget {
     }
   }
 
+}
+
+class StateFormularioTransferencia extends State<FormularioTransferencia>{
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar: AppBar(
+        title: Text('Criando transferência'),
+        backgroundColor: Colors.green,
+
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+
+            Editor(
+                controlador: widget._controladorCampoNumeroConta,
+                placeholder: 'Número da conta',
+                dica: '0000'
+            ),
+
+            Editor(
+                controlador: widget._controladorCampoValor,
+                placeholder: 'Valor',
+                dica: '0.00',
+                icone: Icons.monetization_on
+            ),
+
+            RaisedButton(
+              onPressed: () => widget._criaTransferencia(context),
+              child: Text('Confirmar'),
+              padding: const EdgeInsets.fromLTRB(90.0, 18.0, 90, 12.0),
+            )
+
+          ],
+
+        ),
+      ),
+    );
+  }
 }
 
 class Editor extends StatelessWidget {
@@ -173,15 +183,17 @@ class ListaTransferenciasState extends State<ListaTransferencia> {
     //Função assicrona onde tela futura voltar para tela inicial
     // e verificar se houve um valor retornado e assim receber esse valor para tela inicial
     future.then((transferenciaRecebida){
-
-      debugPrint('$transferenciaRecebida');
-
-      if(transferenciaRecebida != null){
-        widget._listaTransferencias.add(transferenciaRecebida);
-
-        final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
-        Scaffold.of(context).showSnackBar(snackBar);
-      }
+      //Caso use future para fazer alguma requisicao para atualizar, use setState para atualizar algo dinamico pois
+      // sem isso somente ira atualizar quando build for executado novamente
+      Future.delayed(Duration(seconds: 2), (){
+        if(transferenciaRecebida != null){
+          setState(() {
+            widget._listaTransferencias.add(transferenciaRecebida);
+            final snackBar = SnackBar(content: Text('$transferenciaRecebida'), duration: Duration(seconds: 3),);
+            Scaffold.of(context).showSnackBar(snackBar);
+          });
+        }
+      });
 
     });
   }
