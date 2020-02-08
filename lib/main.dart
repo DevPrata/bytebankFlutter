@@ -25,7 +25,7 @@ class ByteBankApp extends StatelessWidget {
       //Rotas das telas do App
       initialRoute: '/',
       routes: <String,WidgetBuilder> {
-        '/': (context) => ContactForm(),
+        '/': (context) => Dashboard(),
         '/ListTransferencia': (context) => ListaTransferencia(),
         '/FormularioTransferencia': (context) => FormularioTransferencia(),
         '/Dashboard': (context) => Dashboard(),

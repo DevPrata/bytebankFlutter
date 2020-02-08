@@ -21,7 +21,11 @@ class ContactList extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>{},
+        onPressed: () {
+          Navigator.pushNamed(context,'/ContatosForm').then((contatoRecebido) {
+            debugPrint(contatoRecebido);
+          });
+        },
         child: Icon(Icons.add),
       ),
     );

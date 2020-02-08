@@ -1,4 +1,5 @@
 import 'package:bytebank/components/editor.dart';
+import 'package:bytebank/models/Contato.dart';
 import 'package:flutter/material.dart';
 
 const _tituloAppBar = 'Novo contato';
@@ -6,9 +7,15 @@ const _tituloAppBar = 'Novo contato';
 const _placeHolderCampoNomeCompleto = 'Nome completo';
 const _placeHolderCampoNumero = 'Número da conta';
 
-class ContactForm extends StatelessWidget {
+class ContactForm extends StatefulWidget {
+  @override
+  _ContactFormState createState() => _ContactFormState();
+}
 
-  final TextEditingController _controladorNomeCompleto = TextEditingController();
+class _ContactFormState extends State<ContactForm> {
+  final TextEditingController _controladorNomeCompleto =
+      TextEditingController();
+
   final TextEditingController _controladorNumeroConta = TextEditingController();
 
   @override
@@ -17,7 +24,6 @@ class ContactForm extends StatelessWidget {
       appBar: AppBar(
         title: Text(_tituloAppBar),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -40,8 +46,18 @@ class ContactForm extends StatelessWidget {
                 height: 50,
                 width: double.infinity,
                 child: RaisedButton(
-                  child: Text('Criar', style: TextStyle(fontSize: 19.0),),
-                  onPressed: () {},
+                  child: Text(
+                    'Criar',
+                    style: TextStyle(fontSize: 19.0),
+                  ),
+                  onPressed: () {
+                    final String nome = _controladorNomeCompleto.text;
+                    final int numeroConta = int.tryParse(_controladorNumeroConta.text);
+
+                    final novoContato = Contato(nome,numeroConta);
+                    
+                    Navigator.pop(context,novoContato.toString());
+                  },
                 ),
               ),
             )
