@@ -1,3 +1,4 @@
+import 'package:bytebank/screen/contacts_list/contacts_list.dart';
 import 'package:bytebank/screen/dashboard/dashboard.dart';
 import 'package:bytebank/screen/transferencia/formulario.dart';
 import 'package:bytebank/screen/transferencia/lista.dart';
@@ -27,6 +28,7 @@ class ByteBankApp extends StatelessWidget {
         '/ListTransferencia': (context) => ListaTransferencia(),
         '/FormularioTransferencia': (context) => FormularioTransferencia(),
         '/Dashboard': (context) => Dashboard(),
+        '/Contatos': (context) => ContactList(),
       },
 
 
